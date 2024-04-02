@@ -30,6 +30,8 @@ public class Constants {
     public static final String CLAIM_SUBMIT = "/claim/submit";
     public static final String CLAIM_ONSUBMIT =  "/claim/on_submit";
     public static final String CONSULTATION_ADD = "/consultation/add";
+    public static final String USER_SEARCH = "/user/search/{mobile}";
+    public static final String USER_CREATE = "/user/create";
 
     //Payment Notice APIs
     public static final String PAYMENT_NOTICE_REQUEST = VERSION_PREFIX + "/paymentnotice/request";
