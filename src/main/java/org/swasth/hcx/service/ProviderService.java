@@ -138,12 +138,18 @@ public class ProviderService {
             String app = (String) requestBody.getOrDefault("app", "");
             claim.setText(new Narrative().setDiv(new XhtmlDocument().setValue(app)).setStatus(Narrative.NarrativeStatus.GENERATED));
             // Add items
-            if (StringUtils.equalsIgnoreCase(app, org.swasth.hcx.utils.Constants.ABSP)) {
-                addInputsBasedOnApp(requestBody, claim);
-            }
+            String treatmentType  = (String) requestBody.getOrDefault("treatmentType", "");
+            claim.addIdentifier(new Identifier().setSystem("http://identifiersystem.com").setValue(treatmentType));
             // Adding supporting Documents
             addSupportingDocuments(requestBody, claim);
             Practitioner practitioner = OnActionFhirExamples.practitionerExample();
+            PractitionerRole practitionerRole = new PractitionerRole();
+            if (StringUtils.equalsIgnoreCase(app, Constants.ABSP)) {
+                claim.setEnterer(new Reference("PractitionerRole/PractitionerAgent"));
+                practitionerRole.setId("PractitionerAgent");
+                practitionerRole.getCode().add(new CodeableConcept(new Coding().setSystem("http://snomed.info/sct").setCode((String) requestBody.getOrDefault("entererRole", "")).setDisplay("AgentCode")).setText((String) requestBody.getOrDefault("entererName", "")));
+                addInputsBasedOnApp(requestBody, claim);
+            }
             Organization hospital = OnActionFhirExamples.providerOrganizationExample();
             hospital.setName((String) requestBody.getOrDefault("providerName", ""));
             Patient patient = OnActionFhirExamples.patientExample();
@@ -155,7 +161,7 @@ public class ProviderService {
             Coverage coverage = OnActionFhirExamples.coverageExample();
             String insuranceId = (String) requestBody.getOrDefault("insuranceId", "");
             coverage.setSubscriberId(insuranceId);
-            List<DomainResource> domList = List.of(hospital, insurerOrganization, patient, coverage, practitioner);
+            List<DomainResource> domList = List.of(hospital, insurerOrganization, patient, coverage, practitioner, practitionerRole);
             Bundle bundleTest = new Bundle();
             try {
                 bundleTest = HCXFHIRUtils.resourceToBundle(claim, domList, Bundle.BundleType.COLLECTION, "https://ig.hcxprotocol.io/v0.7.1/StructureDefinition-ClaimRequestBundle.html", hcxIntegrator);
