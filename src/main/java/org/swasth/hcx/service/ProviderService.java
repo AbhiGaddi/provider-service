@@ -161,7 +161,12 @@ public class ProviderService {
             Coverage coverage = OnActionFhirExamples.coverageExample();
             String insuranceId = (String) requestBody.getOrDefault("insuranceId", "");
             coverage.setSubscriberId(insuranceId);
-            List<DomainResource> domList = List.of(hospital, insurerOrganization, patient, coverage, practitioner, practitionerRole);
+            List<DomainResource> domList;
+            if(StringUtils.equalsIgnoreCase(app, Constants.ABSP)){
+                 domList = List.of(hospital, insurerOrganization, patient, coverage, practitioner, practitionerRole);
+            } else {
+                domList = List.of(hospital, insurerOrganization, patient, coverage, practitioner);
+            }
             Bundle bundleTest = new Bundle();
             try {
                 bundleTest = HCXFHIRUtils.resourceToBundle(claim, domList, Bundle.BundleType.COLLECTION, "https://ig.hcxprotocol.io/v0.7.1/StructureDefinition-ClaimRequestBundle.html", hcxIntegrator);
