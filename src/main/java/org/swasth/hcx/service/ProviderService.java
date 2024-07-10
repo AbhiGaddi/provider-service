@@ -144,7 +144,7 @@ public class ProviderService {
             addSupportingDocuments(requestBody, claim);
             Practitioner practitioner = OnActionFhirExamples.practitionerExample();
             PractitionerRole practitionerRole = new PractitionerRole();
-            if (StringUtils.equalsIgnoreCase(app, Constants.ABSP) || StringUtils.equalsIgnoreCase(app, Constants.OPD)) {
+            if (requestBody.containsKey("entererRole") && (StringUtils.equalsIgnoreCase(app, Constants.ABSP) || StringUtils.equalsIgnoreCase(app, Constants.OPD))) {
                 claim.setEnterer(new Reference("PractitionerRole/PractitionerAgent"));
                 practitionerRole.setId("PractitionerAgent");
                 practitionerRole.getCode().add(new CodeableConcept(new Coding().setSystem("http://snomed.info/sct").setCode((String) requestBody.getOrDefault("entererRole", "")).setDisplay("AgentCode")).setText((String) requestBody.getOrDefault("entererName", "")));
