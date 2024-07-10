@@ -142,7 +142,6 @@ public class OnActionFhirExamples {
         claim.setType(new CodeableConcept(new Coding().setSystem("http://terminology.hl7.org/CodeSystem/claim-type").setCode("institutional")));
         claim.setUse(Claim.Use.CLAIM);
         claim.setPatient(new Reference("Patient/RVH1003"));
-        claim.addIdentifier(new Identifier().setSystem("http://identifiersystem.com").setValue("IdentifierValue"));
         claim.setCreated(new Date());
         claim.setInsurer(new Reference("Organization/GICOFINDIA"));
         claim.setProvider(new Reference("Organization/WeMeanWell01"));
