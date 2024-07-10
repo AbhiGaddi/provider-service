@@ -152,6 +152,7 @@ public class Constants {
     public static final String SUB = "sub";
     public static final String ISS = "iss";
     public static final  String ABSP = "ABSP";
+    public static final String OPD  = "OPD";
     public static final String PATIENT_NAME = "patientName";
     public static final String ITEMS = "items";
     public static final String ITEM_QUANTITY = "quantity";
