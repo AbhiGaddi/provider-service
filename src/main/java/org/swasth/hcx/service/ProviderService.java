@@ -148,7 +148,7 @@ public class ProviderService {
                 claim.setEnterer(new Reference("PractitionerRole/PractitionerAgent"));
                 practitionerRole.setId("PractitionerAgent");
                 practitionerRole.getCode().add(new CodeableConcept(new Coding().setSystem("http://snomed.info/sct").setCode((String) requestBody.getOrDefault("entererRole", "")).setDisplay("AgentCode")).setText((String) requestBody.getOrDefault("entererName", "")));
-                addInputsBasedOnApp(requestBody, claim);
+//                addInputsBasedOnApp(requestBody, claim);
             }
             Organization hospital = OnActionFhirExamples.providerOrganizationExample();
             hospital.setName((String) requestBody.getOrDefault("providerName", ""));
@@ -163,7 +163,7 @@ public class ProviderService {
             coverage.setSubscriberId(insuranceId);
             List<DomainResource> domList;
             if(StringUtils.equalsIgnoreCase(app, Constants.ABSP)){
-                 domList = List.of(hospital, insurerOrganization, patient, coverage, practitioner, practitionerRole);
+                     domList = List.of(hospital, insurerOrganization, patient, coverage, practitioner, practitionerRole);
             } else {
                 domList = List.of(hospital, insurerOrganization, patient, coverage, practitioner);
             }
